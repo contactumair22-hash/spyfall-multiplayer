@@ -240,19 +240,27 @@ function App() {
     }
   }
 
-  async function copyInvite() {
-    if (!room?.code) return;
-
-    const invite = `${window.location.origin}/?room=${room.code}`;
-
-    try {
-      await navigator.clipboard.writeText(invite);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1800);
-    } catch {
-      setNotice(`Share room code ${room.code} with your friends.`);
-    }
+```javascript
+async function copyInvite() {
+  if (!room || !room.code) {
+    return;
   }
+
+  const invite =
+    window.location.origin + "/?room=" + encodeURIComponent(room.code);
+
+  try {
+    await navigator.clipboard.writeText(invite);
+    setCopied(true);
+
+    setTimeout(() => {
+      setCopied(false);
+    }, 1800);
+  } catch (error) {
+    setNotice("Share this room code with your friends: " + room.code);
+  }
+}
+```
 
   useEffect(() => {
     const inviteCode = new URLSearchParams(window.location.search).get('room');
