@@ -240,7 +240,6 @@ function App() {
     }
   }
 
-```javascript
 async function copyInvite() {
   if (!room || !room.code) {
     return;
